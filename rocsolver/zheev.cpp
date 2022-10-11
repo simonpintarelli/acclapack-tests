@@ -2,6 +2,7 @@
 #include <rocblas.h>
 #include <complex>
 #include <stdexcept>
+#include "common/common.hpp"
 
 #define CALL_ROCBLAS(func__, args__)                                           \
   {                                                                            \
@@ -29,29 +30,29 @@
     }                                                                          \
   }
 
-void heevd(rcoblas_handle& handle, rocblas_evect mode, rocblas_fill uplo, int n, T *A, int lda,
-           double *w) {
+void
+heevd(rocblas_handle& handle, rocblas_evect mode, rocblas_fill uplo, int n, rocblas_double_complex* A, int lda,
+      double* w)
+{
 
-  auto handle = rocblasHandle::get();
-  // rocsolver_zh
-  if (mode != rocblas_evect::rocblas_evect_original) {
-    throw std::runtime_error("unsupported mode in rocm::heevd");
-  }
+    // rocsolver_zh
+    if (mode != rocblas_evect::rocblas_evect_original) {
+        throw std::runtime_error("unsupported mode in rocm::heevd");
+    }
 
-  rocblas_double_complex *A_ptr = reinterpret_cast<rocblas_double_complex *>(A);
+    rocblas_double_complex* A_ptr = reinterpret_cast<rocblas_double_complex*>(A);
 
-  int *dev_info{nullptr};
-  CALL_HIP(hipMalloc, (&dev_info, sizeof(rocblas_int)));
+    int* dev_info{nullptr};
+    CALL_HIP(hipMalloc, (&dev_info, sizeof(rocblas_int)));
 
-  double *E;
-  CALL_HIP(hipMalloc, (&E, n * sizeof(double)));
+    double* E;
+    CALL_HIP(hipMalloc, (&E, n * sizeof(double)));
 
-  CALL_ROCBLAS(rocsolver_zheevd,
-               (handle, mode, uplo, n, A_ptr, lda, w, E, dev_info));
+    CALL_ROCBLAS(rocsolver_zheevd, (handle, mode, uplo, n, A_ptr, lda, w, E, dev_info));
 
-  int info;
-  CALL_HIP(hipMemcpyDtoH, (&info, dev_info, sizeof(int)));
-  CALL_HIP(hipFree, (E));
+    int info;
+    CALL_HIP(hipMemcpyDtoH, (&info, dev_info, sizeof(int)));
+    CALL_HIP(hipFree, (E));
 }
 
 int main(int argc, char *argv[]) {

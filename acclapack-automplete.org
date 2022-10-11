@@ -7,7 +7,10 @@
   . $HOME/spack/share/spack/setup-env.sh
 
     spack env activate -v -d $envdir
+    # spack concretize
+    # spack install
     (
+
         builddir=$(spack location -b acclapack-tests)
         cd ${builddir} || exit 1
         set -x
@@ -29,6 +32,8 @@
   . $HOME/spack/share/spack/setup-env.sh
 
     spack env activate -v -d $envdir
+    # spack concretize
+    # spack install
     (
         builddir=$(spack location -b acclapack-tests)
         cd ${builddir} || exit 1

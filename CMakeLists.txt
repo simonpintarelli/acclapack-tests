@@ -24,8 +24,9 @@ if(USE_CUDA)
 endif()
 
 if(USE_ROCM)
-  find_package(hip REQUIRED)
-  include(cmake/rocmlibs_target.cmake)
+  # find_package(hip REQUIRED)
+  find_package(rocblas REQUIRED)
+  find_package(rocsolver REQUIRED)
 endif()
 
 # find_package(MPI REQUIRED)

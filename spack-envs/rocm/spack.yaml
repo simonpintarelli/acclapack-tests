@@ -1,5 +1,5 @@
 spack:
-  specs: [acclapack-tests@master+cuda]
+  specs: [acclapack-tests@master+rocm %gcc@11.3.0]
   develop:
     acclapack-tests:
       spec: acclapack-tests@master
