@@ -1,49 +1,7 @@
----
-Language:        Cpp
-Standard:        Cpp11
-BreakBeforeBraces: 'Custom'
-# Control of individual brace wrapping cases
-BraceWrapping: {
-    AfterClass: 'true'
-    AfterControlStatement: 'false'
-    AfterEnum : 'true'
-    AfterFunction : 'true'
-    AfterNamespace : 'false'
-    AfterStruct : 'true'
-    AfterUnion : 'true'
-    BeforeCatch : 'false'
-    BeforeElse : 'false'
-    IndentBraces : 'false'
-    AfterExternBlock : 'false'
-    BeforeLambdaBody : 'false'
-}
-IndentCaseLabels: 'true'
-AccessModifierOffset: -2
-IndentWidth: 4
-ColumnLimit: 120
-UseTab: Never
-AllowShortFunctionsOnASingleLine: 'None'
-AllowShortIfStatementsOnASingleLine : 'false'
-AllowShortLoopsOnASingleLine: 'false'
-KeepEmptyLinesAtTheStartOfBlocks: 'true'
-AlwaysBreakTemplateDeclarations: 'Yes'
-PointerAlignment: Left
-AllowAllParametersOfDeclarationOnNextLine: 'true'
-AlignConsecutiveAssignments: 'true'
-AlignConsecutiveDeclarations: 'false'
-SortIncludes: 'false'
-BinPackParameters: 'true'
-BinPackArguments: 'true'
-MaxEmptyLinesToKeep: 1
-BreakConstructorInitializersBeforeComma: 'true'
-#BreakConstructorInitializersStyle: 'BeforeComma'
-ConstructorInitializerIndentWidth: 4
-Cpp11BracedListStyle: 'true'
-
-#AlwaysBreakAfterReturnType: None
-AlwaysBreakAfterReturnType: 'TopLevelDefinitions'
-
-#AllowShortLambdasOnASingleLine: None
-#AlignAfterOpenBracket: Align
-
-...
+#Official Tool: clang-format version 8.0.0
+BasedOnStyle: mozilla
+SortIncludes: false
+AlignConsecutiveAssignments: true
+AllowShortCaseLabelsOnASingleLine: true
+AllowShortIfStatementsOnASingleLine: true
+ColumnLimit: 95

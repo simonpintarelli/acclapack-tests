@@ -6,4 +6,5 @@
 #include <hip/hip_runtime.h>
 #endif
 
-void generate_hermitian_matrix(double2* A_dev, int n, int lda);
+void
+generate_hermitian_matrix(double2* A_dev, int n, int lda);
