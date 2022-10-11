@@ -39,27 +39,25 @@
     }                                                                                         \
   }
 
-void
-zheevd(rocblas_handle& handle,
-       rocblas_evect mode,
-       rocblas_fill uplo,
-       int n,
-       rocblas_double_complex* A,
-       int lda,
-       double* w,
-       int& info)
-{
-  // rocsolver_zh
+void zheevd(rocblas_handle &handle,
+            rocblas_evect mode,
+            rocblas_fill uplo,
+            int n,
+            rocblas_double_complex *A,
+            int lda,
+            double *w,
+            int &info) {
+
   if (mode != rocblas_evect::rocblas_evect_original) {
     throw std::runtime_error("unsupported mode in rocm::heevd");
   }
 
-  rocblas_double_complex* A_ptr = reinterpret_cast<rocblas_double_complex*>(A);
+  rocblas_double_complex *A_ptr = reinterpret_cast<rocblas_double_complex *>(A);
 
-  int* dev_info{ nullptr };
+  int *dev_info{nullptr};
   CALL_HIP(hipMalloc, (&dev_info, sizeof(rocblas_int)));
 
-  double* E;
+  double *E;
   CALL_HIP(hipMalloc, (&E, n * sizeof(double)));
 
   CALL_ROCBLAS(rocsolver_zheevd, (handle, mode, uplo, n, A_ptr, lda, w, E, dev_info));
@@ -68,22 +66,16 @@ zheevd(rocblas_handle& handle,
   CALL_HIP(hipFree, (E));
 }
 
-int
-main(int argc, char* argv[])
-{
-  cxxopts::Options options("zheev", "run rocsolver zheev");
-
+/// Return time in seconds
+double run(int n, int lda) {
   rocblas_handle handle;
   rocblas_create_handle(&handle);
 
-  int n   = 1000;
-  int lda = n;
-
-  double2* A_dev;
+  double2 *A_dev;
   CALL_HIP(hipMalloc, (&A_dev, sizeof(double2) * n * lda));
   generate_hermitian_matrix(A_dev, n, lda);
 
-  double* w_dev;
+  double *w_dev;
   CALL_HIP(hipMalloc, (&w_dev, sizeof(double) * n));
 
   auto fill_mode = rocblas_fill::rocblas_fill_full;
@@ -95,18 +87,40 @@ main(int argc, char* argv[])
          rocblas_evect::rocblas_evect_original,
          fill_mode,
          n,
-         reinterpret_cast<rocblas_double_complex*>(A_dev),
+         reinterpret_cast<rocblas_double_complex *>(A_dev),
          lda,
          w_dev,
          info);
   CALL_HIP(hipDeviceSynchronize, ());
   double t =
-    std::chrono::duration<double>(std::chrono::high_resolution_clock::now() - start).count();
+      std::chrono::duration<double>(std::chrono::high_resolution_clock::now() - start).count();
 
   if (info != 0) {
     std::fprintf(stderr, "Error: info: %d", info);
   }
-  std::printf("Timing: %e seconds", t);
+
+  return t;
+}
+
+int main(int argc, char *argv[]) {
+  cxxopts::Options options("zheev", "run rocsolver zheev");
+
+  /* clang-format off */
+  options.add_options()
+      ("n,size", "matrix size", cxxopts::value<std::vector<int>>())
+      ("r,repeat", "number of repetitions", cxxopts::value<int>()->default_value("1"));
+
+  auto results = options.parse(argc, argv);
+
+  auto ns  = results["n"].as<std::vector<int>>();
+  int nrep = results["r"].as<int>();
+
+  for (int n : ns) {
+    for (int i = 0; i < nrep; ++i) {
+      double t = run(n, n);
+      std::printf("n: %40d\t%f\n", n, t);
+    }
+  }
 
   return 0;
 }

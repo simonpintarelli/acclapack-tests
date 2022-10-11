@@ -59,7 +59,7 @@ endif()
 
 
 if(USE_CUDA)
-  add_executable(cuda_zheev cusolver/zheev.cpp src/generate_sym_matrix.cu)
+  add_executable(cuda_zheev src/cuda_zheev.cpp src/generate_sym_matrix.cu)
   target_include_directories(cuda_zheev PRIVATE ${CMAKE_SOURCE_DIR})
   target_include_directories(cuda_zheev PRIVATE ${CMAKE_SOURCE_DIR}/src)
   target_link_libraries(cuda_zheev PRIVATE CUDA::cudart CUDA::cublas CUDA::cusolver CUDA::curand cxxopts::cxxopts)
@@ -67,7 +67,7 @@ if(USE_CUDA)
 endif()
 
 if(USE_ROCM)
-  add_executable(rocm_zheev rocsolver/zheev.cpp src/generate_sym_matrix.cu.hip)
+  add_executable(rocm_zheev src/rocm_zheev.cpp src/generate_sym_matrix.cu.hip)
   target_include_directories(rocm_zheev PRIVATE ${CMAKE_SOURCE_DIR})
   target_include_directories(rocm_zheev PRIVATE ${CMAKE_SOURCE_DIR}/src)
   target_link_libraries(rocm_zheev PRIVATE roc::rocblas hip::device hip::host roc::rocsolver hip::hiprand cxxopts::cxxopts)

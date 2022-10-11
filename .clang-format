@@ -1,7 +1,8 @@
-#Official Tool: clang-format version 8.0.0
-BasedOnStyle: mozilla
-SortIncludes: false
+BasedOnStyle: llvm
 AlignConsecutiveAssignments: true
 AllowShortCaseLabelsOnASingleLine: true
 AllowShortIfStatementsOnASingleLine: true
 ColumnLimit: 95
+BinPackArguments: false
+BinPackParameters: false
+BreakConstructorInitializersBeforeComma: true
