@@ -33,7 +33,6 @@
         }                                                                                                              \
     }
 
-
 cusolverStatus_t
 zheevd(cusolverDnHandle_t handle, cusolverEigMode_t jobz, cublasFillMode_t uplo, int n, cuDoubleComplex* A, int lda,
        double* w, int& Info)
