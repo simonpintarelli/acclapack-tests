@@ -32,7 +32,7 @@
   }
 
 void
-heevd(rocblas_handle& handle, rocblas_evect mode, rocblas_fill uplo, int n, rocblas_double_complex* A, int lda,
+zheevd(rocblas_handle& handle, rocblas_evect mode, rocblas_fill uplo, int n, rocblas_double_complex* A, int lda,
       double* w)
 {
 
@@ -60,6 +60,19 @@ int main(int argc, char *argv[]) {
 
   rocblas_handle handle;
   rocblas_create_handle(&handle);
+
+  int n = 1000;
+  int lda = n;
+
+  double2* A_dev;
+  CALL_HIP(hipMalloc, (&A_dev, sizeof(double2) * n * lda));
+  generate_hermitian_matrix(A_dev, n, lda);
+
+  double* w_dev;
+  CALL_HIP(hipMalloc, (&w_dev, sizeof(double) * n ));
+
+  auto fill_mode = rocblas_fill::rocblas_fill_full;
+  zheevd(handle, rocblas_evect::rocblas_evect_original, fill_mode, n, reinterpret_cast<rocblas_double_complex*>(A_dev), lda, w_dev);
 
   return 0;
 
