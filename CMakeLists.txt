@@ -20,9 +20,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
 
 
 if(USE_CUDA)
-  find_package(CUDA REQUIRED)
-  # enable_language(CUDA)
-  include(cmake/cudalibs_target.cmake)
+  find_package(CUDAToolkit REQUIRED)
 endif()
 
 if(USE_ROCM)
@@ -54,9 +52,8 @@ endif()
 
 
 if(USE_CUDA)
-add_subdirectory(cusolver)
-add_executable(cuda_zheev cusolver/zheev.cpp)
-target_link_libraries(cuda_zheev PRIVATE CUDA::cudart CUDA::cublas CUDA::cusolver)
+  add_executable(cuda_zheev cusolver/zheev.cpp)
+  target_link_libraries(cuda_zheev PRIVATE CUDA::cudart CUDA::cublas CUDA::cusolver)
 endif()
 
 if(USE_ROCM)
