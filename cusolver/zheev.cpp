@@ -4,6 +4,7 @@
 #include <cusolver_common.h>
 #include <iostream>
 #include "common/common.hpp"
+#include "util.hpp"
 
 #define CALL_CUDA(func__, args__)                                                                                      \
     {                                                                                                                  \
@@ -30,37 +31,6 @@
         }                                                                                                              \
     }
 
-namespace cusolver {
-
-void error_message(cusolverStatus_t status);
-
-struct cusolverDnHandle
-{
-    static cusolverDnHandle_t& _get()
-    {
-        static cusolverDnHandle_t handle{nullptr};
-        return handle;
-    }
-
-    static cusolverDnHandle_t& get()
-    {
-        auto& handle = _get();
-        if (!handle) {
-            CALL_CUSOLVER(cusolverDnCreate, (&handle));
-        }
-        return handle;
-    }
-
-    static void destroy()
-    {
-        if (!_get())
-            CALL_CUSOLVER(cusolverDnDestroy, (_get()));
-        _get() = nullptr;
-    }
-
-    static cusolverDnHandle_t handle;
-};
-} // namespace cusolver
 
 cusolverStatus_t
 zheevd(cusolverDnHandle_t handle, cusolverEigMode_t jobz, cublasFillMode_t uplo, int n, cuDoubleComplex* A, int lda,
