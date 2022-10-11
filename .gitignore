@@ -2,3 +2,7 @@
 spack.lock
 .cache/
 __pycache__/
+/compile_commands.json
+spack-build*txt
+spack-build*/
+spack-configure-args.txt

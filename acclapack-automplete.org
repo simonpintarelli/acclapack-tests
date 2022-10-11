@@ -1,0 +1,42 @@
+** cuda
+:PROPERTIES:
+:SPACK_ENV:  ./spack-envs/cuda
+:END:
+
+#+BEGIN_SRC shell :term zsh :results raw drawer :async :var envdir=(org-entry-get nil "SPACK_ENV" 1)
+  . $HOME/spack/share/spack/setup-env.sh
+
+    spack env activate -v -d $envdir
+    (
+        builddir=$(spack location -b acclapack-tests)
+        cd ${builddir} || exit 1
+        set -x
+        compdb -p ./ list > $(spack location --source-dir acclapack-tests)/compile_commands.json
+    )
+#+END_SRC
+
+#+RESULTS:
+:results:
+:end:
+
+
+** rocm
+:PROPERTIES:
+:SPACK_ENV:  ./spack-envs/rocm
+:END:
+
+#+BEGIN_SRC shell :term zsh :results raw drawer :async :var envdir=(org-entry-get nil "SPACK_ENV" 1)
+  . $HOME/spack/share/spack/setup-env.sh
+
+    spack env activate -v -d $envdir
+    (
+        builddir=$(spack location -b acclapack-tests)
+        cd ${builddir} || exit 1
+        set -x
+        compdb -p ./ list > $(spack location --source-dir acclapack-tests)/compile_commands.json
+    )
+#+END_SRC
+
+#+RESULTS:
+:results:
+:end:
