@@ -3,6 +3,7 @@
 #include <complex>
 #include <stdexcept>
 #include "common/common.hpp"
+#include "generate_sym_matrix.hpp"
 
 #define CALL_ROCBLAS(func__, args__)                                           \
   {                                                                            \

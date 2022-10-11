@@ -28,17 +28,21 @@ generate_hermitian_matrix(const double2* __restrict__ Rng, double2* A_dev, const
 }
 
 __host__ void
-generate_hermitian_matrix(hiprandGenerator_t& Generator__, double2* A_dev, int n, int lda)
+generate_hermitian_matrix(double2* A_dev, int n, int lda)
 {
-    dim3 block, thread;
+  hiprandGenerator_t gen;
+  dim3 block, thread;
 
-    block.x  = n / 128 + ((n % 128) != 0);
-    block.y  = n / 128 + ((n % 128) != 0);
-    thread.x = 128;
-    thread.y = 128;
+  curandCreateGenerator(&gen, HIPRAND_RNG_PSEUDO_XORWOW);
 
-    double2* Rng;
-    cudaMalloc(&Rng, sizeof(double2) * n * lda);
-    hiprandGenerateUniformDouble(Generator__, reinterpret_cast<double*>(Rng), 2 * n * lda);
-    generate_hermitian_matrix<<<block, thread>>>(Rng, A_dev, n, lda);
+  block.x = n / 128 + ((n % 128) != 0);
+  block.y     = n / 128 + ((n % 128) != 0);
+  thread.x    = 128;
+  thread.y    = 128;
+
+  double2* Rng;
+  hipMalloc(&Rng, sizeof(double2) * n * lda);
+  hiprandGenerateUniformDouble(gen, reinterpret_cast<double*>(Rng), 2 * n * lda);
+  generate_hermitian_matrix<<<block, thread>>>(Rng, A_dev, n, lda);
+
 }

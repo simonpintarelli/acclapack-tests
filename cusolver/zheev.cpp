@@ -3,8 +3,10 @@
 #include <cusolverDn.h>
 #include <cusolver_common.h>
 #include <iostream>
+
 #include "common/common.hpp"
 #include "util.hpp"
+#include "generate_sym_matrix.hpp"
 
 #define CALL_CUDA(func__, args__)                                                                                      \
     {                                                                                                                  \
