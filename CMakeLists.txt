@@ -55,8 +55,11 @@ endif()
 
 if(USE_CUDA)
 add_subdirectory(cusolver)
+add_executable(cuda_zheev cusolver/zheev.cpp)
+target_link_libraries(cuda_zheev PRIVATE CUDA::cudart CUDA::cublas CUDA::cusolver)
 endif()
 
 if(USE_ROCM)
-add_subdirectory(rocsolver)
+add_executable(rocm_zheev rocsolver/zheev.cpp)
+target_link_libraries(rocm_zheev PRIVATE roc::rocblas hip::device hip::host roc::rocsolver)
 endif()
