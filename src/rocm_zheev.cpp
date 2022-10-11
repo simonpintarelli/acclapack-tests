@@ -3,6 +3,7 @@
 #include <chrono>
 #include <complex>
 #include <cxxopts.hpp>
+#include <exception>
 #include <rocblas.h>
 #include <rocsolver.h>
 #include <stdexcept>
@@ -78,11 +79,11 @@ double run(int n, int lda) {
   double *w_dev;
   CALL_HIP(hipMalloc, (&w_dev, sizeof(double) * n));
 
-  auto fill_mode = rocblas_fill::rocblas_fill_full;
+  auto fill_mode = rocblas_fill::rocblas_fill_lower;
 
   int info;
-  auto start = std::chrono::high_resolution_clock::now();
   CALL_HIP(hipDeviceSynchronize, ());
+  auto start = std::chrono::high_resolution_clock::now();
   zheevd(handle,
          rocblas_evect::rocblas_evect_original,
          fill_mode,
@@ -97,6 +98,7 @@ double run(int n, int lda) {
 
   if (info != 0) {
     std::fprintf(stderr, "Error: info: %d", info);
+    std::terminate();
   }
 
   return t;
