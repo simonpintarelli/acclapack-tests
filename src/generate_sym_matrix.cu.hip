@@ -1,4 +1,5 @@
 #include <hip/hip_runtime.h>
+#include <hiprand.h>
 
 __global__ void
 generate_hermitian_matrix(const double2* __restrict__ Rng, double2* A_dev, const int n, const int lda)
@@ -33,7 +34,7 @@ generate_hermitian_matrix(double2* A_dev, int n, int lda)
   hiprandGenerator_t gen;
   dim3 block, thread;
 
-  curandCreateGenerator(&gen, HIPRAND_RNG_PSEUDO_XORWOW);
+  hiprandCreateGenerator(&gen, HIPRAND_RNG_PSEUDO_XORWOW);
 
   block.x = n / 128 + ((n % 128) != 0);
   block.y     = n / 128 + ((n % 128) != 0);
@@ -43,6 +44,6 @@ generate_hermitian_matrix(double2* A_dev, int n, int lda)
   double2* Rng;
   hipMalloc(&Rng, sizeof(double2) * n * lda);
   hiprandGenerateUniformDouble(gen, reinterpret_cast<double*>(Rng), 2 * n * lda);
-  generate_hermitian_matrix<<<block, thread>>>(Rng, A_dev, n, lda);
+  hipLaunchKernelGGL(generate_hermitian_matrix, dim3(block), dim3(thread), 0, 0, Rng, A_dev, n, lda);
 
 }
