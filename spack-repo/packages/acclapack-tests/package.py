@@ -33,8 +33,8 @@ class AcclapackTests(CMakePackage, CudaPackage,  ROCmPackage):
     def cmake_args(self):
 
         options = [
-            self.define_from_variant('USE_OPENMP', 'openmp')
-            self.define_from_variant('USE_CUDA', 'cuda')
+            self.define_from_variant('USE_OPENMP', 'openmp'),
+            self.define_from_variant('USE_CUDA', 'cuda'),
             self.define_from_variant('USE_ROCM', 'rocm')
                         ]
         if self.spec['blas'].name in ['intel-mkl', 'intel-parallel-studio']:
