@@ -1,0 +1,4 @@
+CompileFlags:
+  Remove: --amdgpu-target*
+  #Add: [-I"/home/simon/spack/opt/spack/linux-arch-skylake/gcc-11.3.0/hip-5.1.3-cgrnvptmvaedy2nkjkkpc7rdzd5ki3b5/include", -nogpulib]
+  # Compiler: clang++
