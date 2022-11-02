@@ -3,16 +3,16 @@ project(acclapack-tests LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 # user variables
-set(USE_OPENMP On CACHE BOOL "use OpenMP")
+# set(USE_OPENMP On CACHE BOOL "use OpenMP")
 set(USE_CUDA Off CACHE BOOL "use cuda")
 set(USE_ROCM Off CACHE BOOL "use amd gpus")
 
 set(LAPACK_VENDOR "OpenBLAS" CACHE STRING "lapack vendor")
 set_property(CACHE LAPACK_VENDOR PROPERTY STRINGS "OpenBLAS" "MKL")
 
-if(USE_OPENMP)
-  find_package(OpenMP REQUIRED)
-endif()
+# if(USE_OPENMP)
+#   find_package(OpenMP REQUIRED)
+# endif()
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS "YES")
 

@@ -16,7 +16,7 @@ class AcclapackTests(CMakePackage, CudaPackage,  ROCmPackage):
 
     version('master', branch="master")
 
-    variant('openmp', default=True)
+    # variant('openmp', default=True)
     variant('cuda', default=False)
     variant('rocm', default=False)
     variant('build_type',
@@ -34,7 +34,7 @@ class AcclapackTests(CMakePackage, CudaPackage,  ROCmPackage):
     def cmake_args(self):
 
         options = [
-            self.define_from_variant('USE_OPENMP', 'openmp'),
+            # self.define_from_variant('USE_OPENMP', 'openmp'),
             self.define_from_variant('USE_CUDA', 'cuda'),
             self.define_from_variant('USE_ROCM', 'rocm')
                         ]
