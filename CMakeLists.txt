@@ -10,6 +10,8 @@ set(USE_ROCM Off CACHE BOOL "use amd gpus")
 set(LAPACK_VENDOR "OpenBLAS" CACHE STRING "lapack vendor")
 set_property(CACHE LAPACK_VENDOR PROPERTY STRINGS "OpenBLAS" "MKL")
 
+list(APPEND CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/cmake/modules")
+
 # if(USE_OPENMP)
 #   find_package(OpenMP REQUIRED)
 # endif()
