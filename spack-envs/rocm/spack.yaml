@@ -1,5 +1,5 @@
 spack:
-  specs: [acclapack-tests@master+rocm %gcc@11.3.0]
+  specs: [acclapack-tests@master+rocm %gcc@11.3.0 ^intel-mkl threads=openmp]
   develop:
     acclapack-tests:
       spec: acclapack-tests@master

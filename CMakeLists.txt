@@ -32,13 +32,14 @@ endif()
 
 if(LAPACK_VENDOR MATCHES OpenBLAS)
   find_package(OpenBLAS REQUIRED)
-  add_library(my_lapack INTERFACE IMPORTED)
-  set_target_properties(my_lapack PROPERTIES
+  add_library(acclapack::lapack INTERFACE IMPORTED)
+  set_target_properties(acclapack::lapack PROPERTIES
     INTERFACE_INCLUDE_DIRECTORIES "${OpenBLAS_INCLUDE_DIRS}"
     INTERFACE_LINK_LIBRARIES "${OpenBLAS_LIBRARIES}")
 elseif(LAPACK_VENDOR MATCHES MKL)
   message("LAPACK VENDOR MKL")
   find_package(MKL REQUIRED)
+  set(acclapack::lapack "intel::mkl")
 elseif(LAPACK_VENDOR MATCHES CRAY_LIBSCI)
   message("LAPACK VENDOR Cray Libsci")
   find_package(SCI REQUIRED)
