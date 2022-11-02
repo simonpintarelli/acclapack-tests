@@ -28,15 +28,6 @@ if(USE_CUDA)
   add_compile_definitions(ALT_USE_CUDA)
 endif()
 
-if(USE_ROCM)
-  find_package(hip REQUIRED)
-  find_package(rocblas REQUIRED)
-  find_package(rocsolver REQUIRED)
-  find_package(hiprand REQUIRED)
-  enable_language(HIP)
-  add_compile_definitions(ALT_USE_ROCM)
-endif()
-
 # find_package(MPI REQUIRED)
 
 if(LAPACK_VENDOR MATCHES OpenBLAS)
@@ -58,6 +49,17 @@ elseif(LAPACK_VENDOR MATCHES CRAY_LIBSCI)
 else()
   message(FATAL_ERROR "must specify a LAPACK_VENDOR")
 endif()
+
+
+if(USE_ROCM)
+  find_package(hip REQUIRED)
+  find_package(rocblas REQUIRED)
+  find_package(rocsolver REQUIRED)
+  find_package(hiprand REQUIRED)
+  enable_language(HIP)
+  add_compile_definitions(ALT_USE_ROCM)
+endif()
+
 
 
 if(USE_CUDA)
