@@ -29,7 +29,7 @@ class AcclapackTests(CMakePackage, CudaPackage,  ROCmPackage):
     depends_on('rocblas', when='+rocm')
     depends_on('rocsolver', when='+rocm')
     depends_on('rocrand', when='+rocm')
-    depends_on('cxxopts')
+    depends_on('cxxopts', type='build')
 
     def cmake_args(self):
 
